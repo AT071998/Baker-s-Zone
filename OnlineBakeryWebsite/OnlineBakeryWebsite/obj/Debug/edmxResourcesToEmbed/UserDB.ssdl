@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OnlineBakeryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="OrderConfirmTable">
+    <Key>
+      <PropertyRef Name="ReplyId" />
+    </Key>
+    <Property Name="ReplyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderId" Type="int" Nullable="false" />
+    <Property Name="Status" Type="varchar(max)" Nullable="false" />
+    <Property Name="Message" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="OrderTable">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderDate" Type="varchar" MaxLength="50" />
+    <Property Name="DeliveryDate" Type="varchar" MaxLength="50" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="Price" Type="money" />
+    <Property Name="Pay_Type" Type="varchar" MaxLength="50" />
+    <Property Name="Product_Id" Type="int" Nullable="false" />
+    <Property Name="Customer_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TableCategory">
+    <Key>
+      <PropertyRef Name="CatId" />
+    </Key>
+    <Property Name="CatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CatName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TableProduct">
+    <Key>
+      <PropertyRef Name="PId" />
+    </Key>
+    <Property Name="PId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PName" Type="nvarchar(max)" />
+    <Property Name="PPrice" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="PCategoryId" Type="int" />
+    <Property Name="PDescription" Type="nvarchar(max)" />
+    <Property Name="FreeDelivery" Type="int" />
+    <Property Name="COD" Type="int" />
+    <Property Name="PIMAGE" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="TableProductImage">
+    <Key>
+      <PropertyRef Name="PimgId" />
+    </Key>
+    <Property Name="PimgId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PID" Type="int" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="Extension" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="MobileNo" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserImage" Type="varchar(max)" />
+    <Property Name="UserType" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="Fk_tblOrder_Product">
+    <End Role="TableProduct" Type="Self.TableProduct" Multiplicity="1" />
+    <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TableProduct">
+        <PropertyRef Name="PId" />
+      </Principal>
+      <Dependent Role="OrderTable">
+        <PropertyRef Name="Product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_tblOrder_User">
+    <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+    <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTable">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="OrderTable">
+        <PropertyRef Name="Customer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_tblProducts_Category">
+    <End Role="TableCategory" Type="Self.TableCategory" Multiplicity="0..1" />
+    <End Role="TableProduct" Type="Self.TableProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TableCategory">
+        <PropertyRef Name="CatId" />
+      </Principal>
+      <Dependent Role="TableProduct">
+        <PropertyRef Name="PCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OnlineBakeryModelStoreContainer">
+    <EntitySet Name="OrderConfirmTable" EntityType="Self.OrderConfirmTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderTable" EntityType="Self.OrderTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TableCategory" EntityType="Self.TableCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TableProduct" EntityType="Self.TableProduct" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TableProductImage" EntityType="Self.TableProductImage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="Fk_tblOrder_Product" Association="Self.Fk_tblOrder_Product">
+      <End Role="TableProduct" EntitySet="TableProduct" />
+      <End Role="OrderTable" EntitySet="OrderTable" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_tblOrder_User" Association="Self.Fk_tblOrder_User">
+      <End Role="UserTable" EntitySet="UserTable" />
+      <End Role="OrderTable" EntitySet="OrderTable" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_tblProducts_Category" Association="Self.Fk_tblProducts_Category">
+      <End Role="TableCategory" EntitySet="TableCategory" />
+      <End Role="TableProduct" EntitySet="TableProduct" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8c713da757754d77a2500f9243766795" Name="Diagram1">
+        <EntityTypeShape EntityType="OnlineBakeryModel.TableCategory" Width="1.5" PointX="1.5" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineBakeryModel.TableProduct" Width="1.5" PointX="3.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineBakeryModel.TableProductImage" Width="1.5" PointX="0.5" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineBakeryModel.UserTable" Width="1.5" PointX="2.5" PointY="3.625" IsExpanded="true" />
+        <AssociationConnector Association="OnlineBakeryModel.Fk_tblProducts_Category" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="OnlineBakeryModel.OrderConfirmTable" Width="1.5" PointX="4.625" PointY="4.375" />
+        <EntityTypeShape EntityType="OnlineBakeryModel.OrderTable" Width="1.5" PointX="6.375" PointY="1.375" />
+        <AssociationConnector Association="OnlineBakeryModel.Fk_tblOrder_Product" />
+        <AssociationConnector Association="OnlineBakeryModel.Fk_tblOrder_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

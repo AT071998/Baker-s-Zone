@@ -1,0 +1,54 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPageLogin.master.cs" Inherits="OnlineBakeryWebsite.MasterPageLogin" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Baker's Zone</title>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="truly-simple/style.css" rel="stylesheet" />
+   <link href="truly-simple/style.css" rel="stylesheet" />
+    <link href="css/Custome.css" rel="stylesheet" />
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="css/Custome.css" rel="stylesheet" />
+</head>
+<body>
+   
+  <div id="top">
+    <h2> Baker's Zone</h2>
+    <div id="menu">
+      <ul>
+        <li><a href="HomePage.aspx" class="current">Home</a></li>
+        <li><a href="Registration.aspx">SignUp</a></li>
+          <li><a href="HomeLogin.aspx">Login</a></li> 
+        <li><a href="ContactusLogin.aspx">Contact Us</a></li>
+        <li><a href="index-2.html">About us</a></li>
+
+      </ul>
+    </div>
+  </div>
+    <form id="form1" runat="server">
+    <div>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+     <footer>
+        <div class="container">
+            <ul class="socials">
+                <li><a href="#" class="fa fa-facebook"></a></li>
+                <li><a href="#" class="fa fa-tumblr"></a></li>
+                <li><a href="#" class="fa fa-google-plus"></a></li>
+            </ul>
+            <div class="copyright">© <span id="copyright-year"></span> |
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+        
+    </footer>
+</body>
+</html>

@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OnlineBakeryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="OrderConfirmTable">
+          <Key>
+            <PropertyRef Name="ReplyId" />
+          </Key>
+          <Property Name="ReplyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar(max)" Nullable="false" />
+          <Property Name="Message" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="OrderTable">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderDate" Type="varchar" MaxLength="50" />
+          <Property Name="DeliveryDate" Type="varchar" MaxLength="50" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Price" Type="money" />
+          <Property Name="Pay_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Product_Id" Type="int" Nullable="false" />
+          <Property Name="Customer_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TableCategory">
+          <Key>
+            <PropertyRef Name="CatId" />
+          </Key>
+          <Property Name="CatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CatName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TableProduct">
+          <Key>
+            <PropertyRef Name="PId" />
+          </Key>
+          <Property Name="PId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PName" Type="nvarchar(max)" />
+          <Property Name="PPrice" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="PCategoryId" Type="int" />
+          <Property Name="PDescription" Type="nvarchar(max)" />
+          <Property Name="FreeDelivery" Type="int" />
+          <Property Name="COD" Type="int" />
+          <Property Name="PIMAGE" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="TableProductImage">
+          <Key>
+            <PropertyRef Name="PimgId" />
+          </Key>
+          <Property Name="PimgId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PID" Type="int" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Extension" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserImage" Type="varchar(max)" />
+          <Property Name="UserType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="Fk_tblOrder_Product">
+          <End Role="TableProduct" Type="Self.TableProduct" Multiplicity="1" />
+          <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableProduct">
+              <PropertyRef Name="PId" />
+            </Principal>
+            <Dependent Role="OrderTable">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_tblOrder_User">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="OrderTable">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_tblProducts_Category">
+          <End Role="TableCategory" Type="Self.TableCategory" Multiplicity="0..1" />
+          <End Role="TableProduct" Type="Self.TableProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableCategory">
+              <PropertyRef Name="CatId" />
+            </Principal>
+            <Dependent Role="TableProduct">
+              <PropertyRef Name="PCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OnlineBakeryModelStoreContainer">
+          <EntitySet Name="OrderConfirmTable" EntityType="Self.OrderConfirmTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderTable" EntityType="Self.OrderTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableCategory" EntityType="Self.TableCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableProduct" EntityType="Self.TableProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableProductImage" EntityType="Self.TableProductImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Fk_tblOrder_Product" Association="Self.Fk_tblOrder_Product">
+            <End Role="TableProduct" EntitySet="TableProduct" />
+            <End Role="OrderTable" EntitySet="OrderTable" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_tblOrder_User" Association="Self.Fk_tblOrder_User">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="OrderTable" EntitySet="OrderTable" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_tblProducts_Category" Association="Self.Fk_tblProducts_Category">
+            <End Role="TableCategory" EntitySet="TableCategory" />
+            <End Role="TableProduct" EntitySet="TableProduct" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OnlineBakeryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TableCategory">
+          <Key>
+            <PropertyRef Name="CatId" />
+          </Key>
+          <Property Name="CatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CatName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TableProducts" Relationship="Self.Fk_tblProducts_Category" FromRole="TableCategory" ToRole="TableProduct" />
+        </EntityType>
+        <EntityType Name="TableProduct">
+          <Key>
+            <PropertyRef Name="PId" />
+          </Key>
+          <Property Name="PId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PPrice" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="PCategoryId" Type="Int32" />
+          <Property Name="PDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FreeDelivery" Type="Int32" />
+          <Property Name="COD" Type="Int32" />
+          <Property Name="PIMAGE" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TableCategory" Relationship="Self.Fk_tblProducts_Category" FromRole="TableProduct" ToRole="TableCategory" />
+          <NavigationProperty Name="OrderTables" Relationship="OnlineBakeryModel.Fk_tblOrder_Product" FromRole="TableProduct" ToRole="OrderTable" />
+        </EntityType>
+        <EntityType Name="TableProductImage">
+          <Key>
+            <PropertyRef Name="PimgId" />
+          </Key>
+          <Property Name="PimgId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Extension" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderTables" Relationship="OnlineBakeryModel.Fk_tblOrder_User" FromRole="UserTable" ToRole="OrderTable" />
+        </EntityType>
+        <Association Name="Fk_tblProducts_Category">
+          <End Role="TableCategory" Type="Self.TableCategory" Multiplicity="0..1" />
+          <End Role="TableProduct" Type="Self.TableProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableCategory">
+              <PropertyRef Name="CatId" />
+            </Principal>
+            <Dependent Role="TableProduct">
+              <PropertyRef Name="PCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OnlineBakeryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TableCategories" EntityType="Self.TableCategory" />
+          <EntitySet Name="TableProducts" EntityType="Self.TableProduct" />
+          <EntitySet Name="TableProductImages" EntityType="Self.TableProductImage" />
+          <EntitySet Name="UserTables" EntityType="Self.UserTable" />
+          <AssociationSet Name="Fk_tblProducts_Category" Association="Self.Fk_tblProducts_Category">
+            <End Role="TableCategory" EntitySet="TableCategories" />
+            <End Role="TableProduct" EntitySet="TableProducts" />
+          </AssociationSet>
+          <EntitySet Name="OrderConfirmTables" EntityType="OnlineBakeryModel.OrderConfirmTable" />
+          <EntitySet Name="OrderTables" EntityType="OnlineBakeryModel.OrderTable" />
+          <AssociationSet Name="Fk_tblOrder_Product" Association="OnlineBakeryModel.Fk_tblOrder_Product">
+            <End Role="TableProduct" EntitySet="TableProducts" />
+            <End Role="OrderTable" EntitySet="OrderTables" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_tblOrder_User" Association="OnlineBakeryModel.Fk_tblOrder_User">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="OrderTable" EntitySet="OrderTables" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="OrderConfirmTable">
+          <Key>
+            <PropertyRef Name="ReplyId" />
+          </Key>
+          <Property Name="ReplyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OrderTable">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Pay_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Product_Id" Type="Int32" Nullable="false" />
+          <Property Name="Customer_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TableProduct" Relationship="OnlineBakeryModel.Fk_tblOrder_Product" FromRole="OrderTable" ToRole="TableProduct" />
+          <NavigationProperty Name="UserTable" Relationship="OnlineBakeryModel.Fk_tblOrder_User" FromRole="OrderTable" ToRole="UserTable" />
+        </EntityType>
+        <Association Name="Fk_tblOrder_Product">
+          <End Type="OnlineBakeryModel.TableProduct" Role="TableProduct" Multiplicity="1" />
+          <End Type="OnlineBakeryModel.OrderTable" Role="OrderTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableProduct">
+              <PropertyRef Name="PId" />
+            </Principal>
+            <Dependent Role="OrderTable">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_tblOrder_User">
+          <End Type="OnlineBakeryModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="OnlineBakeryModel.OrderTable" Role="OrderTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="OrderTable">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OnlineBakeryModelStoreContainer" CdmEntityContainer="OnlineBakeryEntities">
+          <EntitySetMapping Name="TableCategories">
+            <EntityTypeMapping TypeName="OnlineBakeryModel.TableCategory">
+              <MappingFragment StoreEntitySet="TableCategory">
+                <ScalarProperty Name="CatId" ColumnName="CatId" />
+                <ScalarProperty Name="CatName" ColumnName="CatName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableProducts">
+            <EntityTypeMapping TypeName="OnlineBakeryModel.TableProduct">
+              <MappingFragment StoreEntitySet="TableProduct">
+                <ScalarProperty Name="PId" ColumnName="PId" />
+                <ScalarProperty Name="PName" ColumnName="PName" />
+                <ScalarProperty Name="PPrice" ColumnName="PPrice" />
+                <ScalarProperty Name="PCategoryId" ColumnName="PCategoryId" />
+                <ScalarProperty Name="PDescription" ColumnName="PDescription" />
+                <ScalarProperty Name="FreeDelivery" ColumnName="FreeDelivery" />
+                <ScalarProperty Name="COD" ColumnName="COD" />
+                <ScalarProperty Name="PIMAGE" ColumnName="PIMAGE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableProductImages">
+            <EntityTypeMapping TypeName="OnlineBakeryModel.TableProductImage">
+              <MappingFragment StoreEntitySet="TableProductImage">
+                <ScalarProperty Name="PimgId" ColumnName="PimgId" />
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTables">
+            <EntityTypeMapping TypeName="OnlineBakeryModel.UserTable">
+              <MappingFragment StoreEntitySet="UserTable">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserImage" ColumnName="UserImage" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderConfirmTables">
+            <EntityTypeMapping TypeName="OnlineBakeryModel.OrderConfirmTable">
+              <MappingFragment StoreEntitySet="OrderConfirmTable">
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ReplyId" ColumnName="ReplyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderTables">
+            <EntityTypeMapping TypeName="OnlineBakeryModel.OrderTable">
+              <MappingFragment StoreEntitySet="OrderTable">
+                <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
+                <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
+                <ScalarProperty Name="Pay_Type" ColumnName="Pay_Type" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

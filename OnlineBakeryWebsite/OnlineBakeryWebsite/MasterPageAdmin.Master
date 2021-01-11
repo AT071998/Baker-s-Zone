@@ -1,0 +1,38 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPageAdmin.master.cs" Inherits="OnlineBakeryWebsite.MasterPageAdmin" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<link href="truly-simple/style.css" rel="stylesheet" />
+<body>
+    <div>
+  <div id="top">
+    <h2> Baker's Zone</h2>
+    <div id="menu">
+      <ul>
+        <li><a href="HomePage.aspx" class="current">home</a></li>
+        <li><a href="UserInfoAdmin.aspx">User Info</a></li>
+          <li><a href="AddCategory.aspx">Add Category</a></li>
+          <li><a href="AddProduct.aspx">Add Product</a></li>
+          <li><a href="OrderDetailByAdmin.aspx">Order Info</a></li>
+          <li><a href="ProductInfo.aspx">Product Info</a></li>
+        <li><a href="LogoutAdmin.aspx">Logout</a></li>
+        
+
+      </ul>
+    </div>
+  </div>
+    <form id="form1" runat="server">
+    <div>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>
